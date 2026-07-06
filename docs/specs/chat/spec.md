@@ -1,34 +1,40 @@
 # Spec — Module chat
 
-> **QUOI et POURQUOI.** À écrire avant de coder. C'est le contrat du module.
+> **QUOI et POURQUOI.** Le contrat du module. Tenu à jour à chaque tâche (Discipline de documentation).
 
 - **Owner** : @sara
 - **Dépendances** : taches, stocks, calendrier
-- **Statut** : Brouillon | Validé
+- **Statut** : Validé
 
 ## Rôle
-Check-in IA quotidien, et gestion des tâches, stocks et RDV via l'IA.
-<!-- Une phrase : à quoi sert ce module dans le produit. -->
+Assistant IA conversationnel : check-in quotidien, et gestion des tâches, stocks et rendez-vous à la
+demande de l'utilisateur, en pilotant les autres modules via leur API publique.
 
 ## User stories
-- En tant que des particuliers qui veulent organiser leur quotidien sans effort, je veux ... afin de ...
-- ...
+- En tant qu'utilisateur, je veux un check-in IA quotidien afin de faire le point sur ma journée.
+- En tant qu'utilisateur, je veux demander à l'IA de créer / modifier une tâche, un RDV ou un article
+  afin de tout gérer par la conversation.
+- En tant qu'utilisateur, je veux que l'IA me réponde dans le fil afin de garder l'historique.
 
 ## Fonctionnalités
-Liste des fonctionnalités attendues (chacune sera testée aux 3 niveaux) :
-- [ ] ...
-- [ ] ...
+- [ ] Fil de conversation (envoi / affichage des messages)
+- [ ] Check-in quotidien (message d'accueil contextualisé)
+- [ ] Actions IA (function-calling) vers `taches`, `stocks`, `calendrier` via leur API publique
+- [ ] Confirmation avant toute action destructive (suppression)
 
 ## Règles métier
-- ...
-<!-- Ex. règles de validation, contraintes, cas limites. -->
+- L'IA agit **uniquement** via l'API publique (`index.ts`) des autres modules, jamais en accédant à
+  leur intérieur ni à la base directement.
+- Confirmation explicite avant une action irréversible.
+- Chaque utilisateur ne voit que sa propre conversation et n'agit que sur ses propres données (RLS).
 
 ## API publique du module (`index.ts`)
-Ce que ce module expose aux autres (les autres n'utilisent QUE ça) :
-- `...`
+- `useChat()` / `sendMessage(texte)` / `history()`
 
 ## Données
-Entités / tables manipulées, et qui possède la donnée (rappel : Supabase Auth (email / mot de passe) + isolation par utilisateur).
+- Table `messages` : `id`, `user_id`, `role` (user / assistant), `contenu`, `date`. RLS par `user_id`.
+- Consomme `taches` / `stocks` / `calendrier` via leur `index.ts` (pas de table partagée).
 
 ## Hors périmètre
-Ce que ce module ne fait PAS (pour éviter le débordement inter-modules).
+- La logique métier des autres modules (déléguée à ceux-ci).
+- Le branchement du vrai LLM (Claude API) : à définir à l'incrément IA (réponses factices d'abord).

@@ -1,34 +1,42 @@
 # Spec — Module profil
 
-> **QUOI et POURQUOI.** À écrire avant de coder. C'est le contrat du module.
+> **QUOI et POURQUOI.** Le contrat du module. Tenu à jour à chaque tâche (Discipline de documentation).
 
 - **Owner** : @sara
 - **Dépendances** : auth
-- **Statut** : Brouillon | Validé
+- **Statut** : Validé
 
 ## Rôle
-Compte, préférences de notifications, abonnement.
-<!-- Une phrase : à quoi sert ce module dans le produit. -->
+Gérer le compte de l'utilisateur : informations de profil, préférences de notifications, abonnement, déconnexion.
 
 ## User stories
-- En tant que des particuliers qui veulent organiser leur quotidien sans effort, je veux ... afin de ...
-- ...
+- En tant qu'utilisateur, je veux voir et modifier mon nom afin de personnaliser mon compte.
+- En tant qu'utilisateur, je veux régler mes préférences de notifications afin de contrôler ce que je reçois.
+- En tant qu'utilisateur, je veux voir mon abonnement afin de savoir où j'en suis.
+- En tant qu'utilisateur, je veux me déconnecter depuis mon profil.
 
 ## Fonctionnalités
-Liste des fonctionnalités attendues (chacune sera testée aux 3 niveaux) :
-- [ ] ...
-- [ ] ...
+- [ ] Afficher le profil (nom, email)
+- [ ] Éditer le nom (first_name / full_name)
+- [ ] Préférences de notifications (persistées)
+- [ ] Afficher l'abonnement (plan)
+- [ ] Déconnexion (via le module `auth`)
 
 ## Règles métier
-- ...
-<!-- Ex. règles de validation, contraintes, cas limites. -->
+- Un utilisateur ne modifie que **son** profil (RLS).
+- **Il ne peut PAS changer son `plan` via l'API** (verrou par grants de colonne : seuls `first_name`
+  et `full_name` sont modifiables côté client). Leçon de sécurité issue de Vivia v1.
+- Validation Zod des champs éditables.
 
 ## API publique du module (`index.ts`)
-Ce que ce module expose aux autres (les autres n'utilisent QUE ça) :
-- `...`
+- `useProfile()` / `getProfile()`
+- `updateProfile({ firstName?, fullName? })` (jamais `plan`)
+- `getNotificationPrefs()` / `setNotificationPrefs(prefs)`
 
 ## Données
-Entités / tables manipulées, et qui possède la donnée (rappel : Supabase Auth (email / mot de passe) + isolation par utilisateur).
+- Table `profiles` : `user_id`, `first_name`, `full_name`, `plan`. RLS + grants de colonne (anti-escalade sur `plan`).
+- Préférences de notifications : persistées localement (AsyncStorage).
 
 ## Hors périmètre
-Ce que ce module ne fait PAS (pour éviter le débordement inter-modules).
+- La connexion / inscription (module `auth`).
+- Le paiement réel de l'abonnement (à définir, RevenueCat ultérieur).

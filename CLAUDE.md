@@ -61,8 +61,9 @@ par l'API publique du module (`index.ts`). Toucher un autre module = ouvrir une 
 6. **Sécurité** : lancer `/security-review` ; si la fonctionnalité expose une surface (API, auth,
    données), écrire/mettre à jour les scripts de test sécurité dans `security/`.
 7. **Commit atomique** (Conventional Commits, voir plus bas). Push.
-8. **Mettre à jour la mémoire durable** : spec du module, CHANGELOG, + ADR si décision, + mistakes-log
-   si erreur non-évidente rencontrée.
+8. **Mettre à jour la doc du module** (partie du Done, voir Discipline de documentation) : `spec.md`
+   (contrat réel), `tasks.md` (avancement), `test-plan.md` (tests), `design.md` (si UI), + CHANGELOG,
+   + ADR si décision, + mistakes-log si erreur non-évidente rencontrée.
 9. **Ouvrir la PR** avec le template rempli. Ne merge que si la CI est verte et la revue faite.
 
 ## Règle des 3 niveaux de test (NON-NÉGOCIABLE)
@@ -74,8 +75,21 @@ Tant que les 3 ne sont pas verts, la fonctionnalité n'est **pas** terminée : n
 
 ## Definition of Done (par fonctionnalité)
 typecheck + lint verts · **3 niveaux de test verts** · `/security-review` passé · un seul module
-touché · spec + CHANGELOG à jour (+ ADR / mistakes-log si besoin) · PR ouverte avec le template rempli.
-Tant que ce n'est pas coché, **continue** au lieu de rendre la main.
+touché · **doc du module à jour** (`spec.md` / `tasks.md` / `test-plan.md` / `design.md`) + CHANGELOG
+(+ ADR / mistakes-log si besoin) · PR ouverte avec le template rempli. Tant que ce n'est pas coché,
+**continue** au lieu de rendre la main.
+
+## Discipline de documentation (les fichiers sont TOUJOURS à jour)
+La doc fait partie du code livré, pas un extra. **Une PR qui change le comportement d'un module sans
+mettre à jour sa doc est incomplète.** À chaque tâche, l'agent synchronise, dans le même diff :
+- **`docs/specs/<module>/spec.md`** : le contrat réel (fonctionnalités, règles, API publique). Jamais
+  de placeholder `...` : si une case n'est pas encore connue, l'écrire « à définir » explicitement.
+- **`docs/specs/<module>/tasks.md`** : coche ce qui est fait, déplace en « En cours » / « Terminé ».
+- **`docs/specs/<module>/test-plan.md`** : reflète les tests réellement écrits (les 3 niveaux).
+- **`docs/specs/<module>/design.md`** + `design/<module>/` : la maquette adoptée si l'UI change.
+- **`docs/ARCHITECTURE.md`** : si la structure ou une API publique change.
+- **`CHANGELOG.md`**, **`docs/adr/`** (décision), **`docs/mistakes-log.md`** (erreur non-évidente).
+Règle simple : **le code et sa doc avancent ensemble**. C'est vérifié à la revue (check-list PR).
 
 ---
 
