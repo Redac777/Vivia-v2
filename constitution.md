@@ -23,6 +23,10 @@
 - Les secrets ne sont jamais dans le code. Uniquement dans `.env` (gitignoré).
 
 ## Dépendances approuvées
+Liste faisant foi : le gate CI `scripts/check-deps.mjs` fait **échouer la PR** si le `package.json`
+s'en écarte. Une dépendance par ligne ; `# ...` = commentaire ; `@types/*` accepté.
+
+<!-- deps-allowlist:start -->
 ```
 # Runtime
 expo
@@ -41,7 +45,10 @@ ts-jest
 jest-expo
 @types/react
 ```
-- Toute dépendance hors de cette liste exige l'accord de l'équipe (ASK FIRST + ADR).
+<!-- deps-allowlist:end -->
+
+- Toute dépendance hors de cette liste exige l'accord de l'équipe (ASK FIRST + ADR), **puis on
+  l'ajoute ici dans le même changement** (sinon le gate CI `check-deps` bloque).
 - Note bootstrap (ADR-001) : les tests unitaires tournent d'abord en `jest` + `ts-jest` (léger,
   CI-friendly). On migre vers `jest-expo` à l'incrément UI. Les deux figurent dans la liste.
 
