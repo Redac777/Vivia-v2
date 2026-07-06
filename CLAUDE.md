@@ -25,6 +25,11 @@ Un assistant de vie proactif alimenté par l'IA : tâches, calendrier, stocks et
 - Tests généraux / intégration : flux end-to-end via Expo Go (à automatiser plus tard)
 - Build : `npx expo export`
 
+> **État bootstrap (ADR-001)** : Expo n'est pas encore installé. Aujourd'hui, seuls **`npm run
+> typecheck`** et **`npm test`** tournent. Les commandes `expo start` / `expo lint` / `expo export`
+> deviennent actives à l'incrément UI (elles sont réintroduites dans `package.json` + `ci.yml` à ce
+> moment-là).
+
 ## Carte des modules (bounded contexts)
 Un agent travaille **dans un seul module à la fois**. Les échanges entre modules passent **uniquement**
 par l'API publique du module (`index.ts`). Toucher un autre module = ouvrir une PR revue par son owner.
@@ -57,7 +62,8 @@ par l'API publique du module (`index.ts`). Toucher un autre module = ouvrir une 
 2. **Lire la spec** du module et se limiter à **un seul module**.
 3. **Coder** la fonctionnalité.
 4. **Tester aux 3 niveaux** (voir Règle des 3 niveaux ci-dessous).
-5. **Vérifier** : `npx tsc --noEmit` + `npx expo lint` + `npm test` doivent être verts.
+5. **Vérifier** : typecheck + lint + tests verts. Au bootstrap (ADR-001) : `npm run typecheck` +
+   `npm test` ; `expo lint` s'ajoute avec l'UI.
 6. **Sécurité** : lancer `/security-review` ; si la fonctionnalité expose une surface (API, auth,
    données), écrire/mettre à jour les scripts de test sécurité dans `security/`.
 7. **Commit atomique** (Conventional Commits, voir plus bas). Push.
@@ -79,17 +85,26 @@ touché · **doc du module à jour** (`spec.md` / `tasks.md` / `test-plan.md` / 
 (+ ADR / mistakes-log si besoin) · PR ouverte avec le template rempli. Tant que ce n'est pas coché,
 **continue** au lieu de rendre la main.
 
-## Discipline de documentation (les fichiers sont TOUJOURS à jour)
-La doc fait partie du code livré, pas un extra. **Une PR qui change le comportement d'un module sans
-mettre à jour sa doc est incomplète.** À chaque tâche, l'agent synchronise, dans le même diff :
-- **`docs/specs/<module>/spec.md`** : le contrat réel (fonctionnalités, règles, API publique). Jamais
-  de placeholder `...` : si une case n'est pas encore connue, l'écrire « à définir » explicitement.
-- **`docs/specs/<module>/tasks.md`** : coche ce qui est fait, déplace en « En cours » / « Terminé ».
-- **`docs/specs/<module>/test-plan.md`** : reflète les tests réellement écrits (les 3 niveaux).
-- **`docs/specs/<module>/design.md`** + `design/<module>/` : la maquette adoptée si l'UI change.
-- **`docs/ARCHITECTURE.md`** : si la structure ou une API publique change.
-- **`CHANGELOG.md`**, **`docs/adr/`** (décision), **`docs/mistakes-log.md`** (erreur non-évidente).
-Règle simple : **le code et sa doc avancent ensemble**. C'est vérifié à la revue (check-list PR).
+## Discipline de documentation — quand tu changes X, mets à jour Y (dans le MÊME diff)
+La doc fait partie du code livré. **Une PR qui change un module sans mettre à jour sa doc est
+incomplète.** Sers-toi de ce tableau : dès que tu fais l'action de gauche, mets à jour le(s) fichier(s)
+de droite. Comme ça tu n'oublies rien.
+
+| Ce que tu fais | Ce que tu mets à jour |
+|---|---|
+| Ajouter / modifier une fonctionnalité | `docs/specs/<module>/spec.md` (fonctionnalités, règles) · `docs/specs/<module>/tasks.md` (coche / déplace) · `CHANGELOG.md` |
+| Écrire / modifier des tests | `docs/specs/<module>/test-plan.md` (les 3 niveaux) |
+| Changer l'API publique (`index.ts`) | section API de `spec.md` · `src/modules/<module>/README.md` |
+| Ajouter / modifier un écran (UI) | `docs/specs/<module>/design.md` + déposer la maquette dans `design/<module>/` |
+| Changer l'approche technique | `docs/specs/<module>/plan.md` |
+| Changer la structure ou une dépendance inter-module | `docs/ARCHITECTURE.md` (arbo / carte / flux) |
+| Prendre une décision structurante | un ADR `docs/adr/NNNN-titre.md` |
+| Rencontrer une erreur non-évidente | `docs/mistakes-log.md` |
+| Changer une règle ou une dépendance approuvée | `constitution.md` (via ADR) |
+| Changer le workflow / le comportement de l'agent | ce `CLAUDE.md` (+ `src/modules/<module>/CLAUDE.md` si c'est propre au module) |
+
+Règle simple : **le code et sa doc avancent ensemble**. Rappel : aucun placeholder `...` dans un
+`spec.md` (écrire « à définir » si inconnu). C'est vérifié à la revue (check-list PR).
 
 ---
 

@@ -5,7 +5,7 @@
 > **interdit** (ce qu'on ne fait jamais). Court, stable, rarement modifié (et seulement par ADR).
 
 ## Langage & framework
-- TypeScript (mode strict) en mode strict. Pas de `any`, pas de `@ts-ignore`.
+- TypeScript (mode strict). Pas de `any`, pas de `@ts-ignore`.
 - Framework imposé : Expo / React Native (expo-router). On ne mélange pas les paradigmes.
 - Styling : thème maison centralisé (src/theme) uniquement. Pas d'autre librairie de style.
 - Base de données via Supabase (PostgreSQL + RLS). Pas de requête brute hors migrations.
@@ -35,10 +35,15 @@ zod
 react-native-url-polyfill
 # Dev
 typescript
+jest
+ts-jest
+@types/jest
 jest-expo
 @types/react
 ```
 - Toute dépendance hors de cette liste exige l'accord de l'équipe (ASK FIRST + ADR).
+- Note bootstrap (ADR-001) : les tests unitaires tournent d'abord en `jest` + `ts-jest` (léger,
+  CI-friendly). On migre vers `jest-expo` à l'incrément UI. Les deux figurent dans la liste.
 
 ## Tests (voir la Règle des 3 niveaux dans CLAUDE.md)
 - **Toute fonctionnalité terminée** est couverte par : un test unitaire + un test général/intégration
