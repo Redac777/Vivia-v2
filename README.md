@@ -9,9 +9,12 @@ Un assistant de vie proactif alimenté par l'IA : tâches, calendrier, stocks et
 ## Démarrage rapide
 ```bash
 npm install
-npx expo start
+npm run typecheck   # vérifie le code
+npm test            # lance les tests unitaires
 ```
-Configuration : copier `.env.example` en `.env` et renseigner les variables (voir plus bas).
+> État bootstrap (ADR-001) : Expo n'est pas encore installé. `npx expo start` (lancer l'app) devient
+> disponible à l'incrément UI. Config à venir : copier `.env.example` en `.env` et renseigner les
+> variables Supabase.
 
 ## Structure
 ```

@@ -38,12 +38,9 @@ security/             # scripts de test de sécurité
 | stocks | Catégories et articles Cuisine / Hygiène / Vêtements (CRUD). | @amine | auth |
 | chat | Check-in IA quotidien, et gestion des tâches, stocks et RDV via l'IA. | @sara | taches, stocks, calendrier |
 | profil | Compte, préférences de notifications, abonnement. | @sara | auth |
-<!-- | Module | Rôle | Owner | Dépendances | Écrans/Interfaces | -->
 
 ## Flux de données
 UI → validation Zod → couche données (repository) → Supabase (Postgres + RLS) → store maison → UI. L'auth (Supabase Auth) scope chaque requête à l'utilisateur connecté ; les modules communiquent uniquement via leur `index.ts`.
-<!-- Décrire brièvement : UI → validation (Zod) → couche données → Supabase (PostgreSQL + RLS) → UI.
-     Où vit l'auth (Supabase Auth (email / mot de passe)), comment les modules communiquent (index.ts). -->
 
 ## Couche données
 Chaque module a une **couche données remplaçable** (`data/*.repository.ts` ou équivalent) : c'est le
