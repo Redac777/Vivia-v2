@@ -1,0 +1,51 @@
+name: CI
+
+# Le robot qui vérifie chaque Pull Request et chaque push. Le merge sur main est bloqué tant que ce
+# job n'est pas vert (voir la protection de branche dans SETUP.md).
+
+on:
+  pull_request:
+  push:
+    branches: [main, dev_branch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install
+        run: npm install
+
+      - name: Lint
+        run: npx expo lint
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Tests unitaires
+        run: npm test
+
+      - name: Build
+        run: npx expo export
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Scan de secrets : échoue si une clé / un .env se glisse dans la PR.
+      - name: Scan de secrets (gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

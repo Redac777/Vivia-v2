@@ -1,0 +1,19 @@
+# CODEOWNERS — qui possède quoi.
+# Toute PR touchant un chemin ci-dessous réclame AUTOMATIQUEMENT la revue de l'owner indiqué.
+# Syntaxe : <chemin>   @pseudo-github   (le dernier motif qui matche gagne).
+
+# Fichiers de loi = revus par le/les responsable(s) du projet
+/CLAUDE.md               @reda
+/constitution.md         @reda
+/docs/                   @reda
+/.github/                @reda
+
+# Un module = un owner (généré depuis la table module → owner)
+/src/modules/onboarding/    @sara
+/src/modules/auth/          @reda
+/src/modules/dashboard/     @sara
+/src/modules/taches/        @reda
+/src/modules/calendrier/    @amine
+/src/modules/stocks/        @amine
+/src/modules/chat/          @sara
+/src/modules/profil/        @sara
