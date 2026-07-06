@@ -8,6 +8,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.110.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {

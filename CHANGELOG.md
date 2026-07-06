@@ -8,6 +8,7 @@
 ### Ajouté
 - feat(auth): validation des identifiants (Zod) + socle de tests (base projet, ADR-001)
 - ci: gate de conformité des dépendances (`check-deps`) — la constitution devient mécaniquement appliquée (ADR-002)
+- feat(auth): service d'auth (signUp / signIn / signOut / session) + adaptateur Supabase injecté (ADR-003)
 
 ### Modifié
 -
