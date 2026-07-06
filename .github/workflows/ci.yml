@@ -25,6 +25,10 @@ jobs:
       - name: Install
         run: npm install
 
+      # Garde-fou : les dépendances doivent rester dans la liste approuvée de constitution.md.
+      - name: Dépendances conformes à la constitution
+        run: node scripts/check-deps.mjs
+
       - name: Typecheck
         run: npm run typecheck
 

@@ -16,4 +16,11 @@
 
 -->
 
-(aucune entrée pour l'instant — ajoute la première quand tu rencontres une erreur non-évidente)
+- **Dépendances ajoutées hors de la liste approuvée, sans ASK FIRST.** En bootstrap du module `auth`,
+  `jest` / `ts-jest` / `@types/jest` ont été ajoutés au `package.json` alors que la constitution
+  n'approuvait que `jest-expo`. Un ADR a été écrit, mais (a) sans demander d'abord (ASK FIRST), et
+  (b) sans mettre à jour la liste de la constitution dans le même changement → violation de la
+  constitution pendant plusieurs commits. **Cause racine :** la règle n'était appliquée que par la
+  discipline de l'agent (du texte), rien ne la bloquait. **Fix / invariant :** gate CI
+  `scripts/check-deps.mjs` qui échoue si le `package.json` s'écarte de la liste approuvée (ADR-002).
+  Et pour tout changement « ASK FIRST » : demander avant, pas décider seul. (réf : PR #1, ADR-001/002)
