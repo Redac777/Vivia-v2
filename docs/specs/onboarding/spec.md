@@ -1,34 +1,33 @@
 # Spec — Module onboarding
 
-> **QUOI et POURQUOI.** À écrire avant de coder. C'est le contrat du module.
+> **QUOI et POURQUOI.** Le contrat du module. Tenu à jour à chaque tâche (Discipline de documentation).
 
 - **Owner** : @sara
 - **Dépendances** : aucune
-- **Statut** : Brouillon | Validé
+- **Statut** : Validé
 
 ## Rôle
-Splash, présentation et écran de bienvenue.
-<!-- Une phrase : à quoi sert ce module dans le produit. -->
+Accueillir le nouvel utilisateur à la première ouverture : présenter Vivia en quelques écrans et l'amener vers l'inscription.
 
 ## User stories
-- En tant que des particuliers qui veulent organiser leur quotidien sans effort, je veux ... afin de ...
-- ...
+- En tant que nouvel utilisateur, je veux comprendre à quoi sert Vivia afin de décider de m'inscrire.
+- En tant que nouvel utilisateur, je veux passer rapidement à l'inscription afin de commencer.
+- En tant qu'utilisateur déjà venu, je ne veux plus revoir l'onboarding afin d'aller droit au but.
 
 ## Fonctionnalités
-Liste des fonctionnalités attendues (chacune sera testée aux 3 niveaux) :
-- [ ] ...
-- [ ] ...
+- [ ] Écran splash (logo)
+- [ ] Écrans de présentation (slides : tâches, calendrier, stocks, IA)
+- [ ] Bouton vers l'inscription / connexion (module `auth`)
+- [ ] Mémoriser que l'onboarding a été vu (ne plus l'afficher ensuite)
 
 ## Règles métier
-- ...
-<!-- Ex. règles de validation, contraintes, cas limites. -->
+- L'onboarding ne s'affiche qu'à la première utilisation (flag persistant local).
 
 ## API publique du module (`index.ts`)
-Ce que ce module expose aux autres (les autres n'utilisent QUE ça) :
-- `...`
+- `hasSeenOnboarding()` / `markOnboardingSeen()`
 
 ## Données
-Entités / tables manipulées, et qui possède la donnée (rappel : Supabase Auth (email / mot de passe) + isolation par utilisateur).
+- Flag local (AsyncStorage), pas de table en base.
 
 ## Hors périmètre
-Ce que ce module ne fait PAS (pour éviter le débordement inter-modules).
+- L'inscription / la connexion elles-mêmes (module `auth`).

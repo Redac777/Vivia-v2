@@ -1,34 +1,38 @@
 # Spec — Module stocks
 
-> **QUOI et POURQUOI.** À écrire avant de coder. C'est le contrat du module.
+> **QUOI et POURQUOI.** Le contrat du module. Tenu à jour à chaque tâche (Discipline de documentation).
 
 - **Owner** : @amine
 - **Dépendances** : auth
-- **Statut** : Brouillon | Validé
+- **Statut** : Validé
 
 ## Rôle
-Catégories et articles Cuisine / Hygiène / Vêtements (CRUD).
-<!-- Une phrase : à quoi sert ce module dans le produit. -->
+Gérer les stocks du foyer par catégorie (Cuisine / Hygiène / Vêtements) : consultation, ajout, édition, suppression, suivi des quantités.
 
 ## User stories
-- En tant que des particuliers qui veulent organiser leur quotidien sans effort, je veux ... afin de ...
-- ...
+- En tant qu'utilisateur, je veux voir mes articles regroupés par catégorie afin de m'y retrouver.
+- En tant qu'utilisateur, je veux filtrer par catégorie afin de me concentrer sur un rayon.
+- En tant qu'utilisateur, je veux ajouter un article (nom, catégorie, quantité) afin de suivre mes stocks.
+- En tant qu'utilisateur, je veux éditer / supprimer un article afin de tenir mes stocks à jour.
 
 ## Fonctionnalités
-Liste des fonctionnalités attendues (chacune sera testée aux 3 niveaux) :
-- [ ] ...
-- [ ] ...
+- [ ] Lister les articles, groupés / filtrables par catégorie (Cuisine / Hygiène / Vêtements)
+- [ ] Créer un article (nom, catégorie, quantité, unité, seuil d'alerte) — catégorie par défaut = filtre actif
+- [ ] Éditer un article
+- [ ] Supprimer un article
+- [ ] Indicateur d'alerte quand la quantité passe sous le seuil
 
 ## Règles métier
-- ...
-<!-- Ex. règles de validation, contraintes, cas limites. -->
+- Nom non vide ; quantité >= 0 ; catégorie dans l'ensemble défini (Cuisine / Hygiène / Vêtements).
+- Chaque utilisateur ne voit et ne modifie que ses propres articles (RLS).
 
 ## API publique du module (`index.ts`)
-Ce que ce module expose aux autres (les autres n'utilisent QUE ça) :
-- `...`
+- `useArticles(categorie?)` / `listArticles(categorie?)`
+- `addArticle(input)` / `updateArticle(id, patch)` / `removeArticle(id)`
 
 ## Données
-Entités / tables manipulées, et qui possède la donnée (rappel : Supabase Auth (email / mot de passe) + isolation par utilisateur).
+- Table `articles` : `id`, `user_id`, `nom`, `categorie`, `quantite`, `unite`, `seuil`. RLS par `user_id`.
 
 ## Hors périmètre
-Ce que ce module ne fait PAS (pour éviter le débordement inter-modules).
+- La liste de courses automatique (à définir, ultérieur).
+- Les notifications de seuil bas (module notifications, ultérieur).
