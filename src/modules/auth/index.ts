@@ -1,4 +1,5 @@
 // API publique du module auth. Les autres modules n'importent QUE d'ici.
-export { validateCredentials } from './auth.service';
+export { createAuth, validateCredentials } from './auth.service';
+export { supabaseAuthGateway } from './data/supabase-auth.gateway';
 export { credentialsSchema } from './types';
-export type { Credentials, ValidationResult } from './types';
+export type { Credentials, ValidationResult, AuthUser, AuthOutcome, AuthGateway } from './types';

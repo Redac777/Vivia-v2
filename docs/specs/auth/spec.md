@@ -17,20 +17,25 @@ Permettre à l'utilisateur de créer un compte, se connecter et rester connecté
 
 ## Fonctionnalités
 - [x] Validation des identifiants côté client (email valide, mot de passe >= 8) via Zod
-- [ ] Inscription (signUp) via Supabase Auth + création du profil
-- [ ] Connexion (signIn)
-- [ ] Session persistante (rester connecté) + récupération de l'utilisateur courant
-- [ ] Déconnexion (signOut)
+- [x] Logique d'inscription (`signUp`) : validation + appel gateway + mapping d'erreur
+- [x] Logique de connexion (`signIn`) : validation + message générique anti-fuite d'info
+- [x] Logique de déconnexion (`signOut`) et récupération de l'utilisateur (`getCurrentUser`)
+- [x] Adaptateur Supabase (`supabaseAuthGateway`, client injecté)
+- [ ] Client Supabase runtime (env + AsyncStorage) + session persistante
+- [ ] Écran(s) de connexion / inscription (UI)
+- [ ] Test d'intégration du parcours + scripts de sécurité (RLS)
 
 ## Règles métier
 - Email valide et normalisé (trim) ; mot de passe d'au moins 8 caractères.
-- Messages d'erreur clairs mais **sans fuite d'information** (ne pas révéler si un email existe déjà).
+- Messages d'erreur clairs mais **sans fuite d'information** : à la connexion, message générique
+  (« Email ou mot de passe incorrect. »), on ne révèle pas si l'email existe.
 - Chaque utilisateur n'accède qu'à ses propres données (isolation par RLS au niveau base).
 
 ## API publique du module (`index.ts`)
-- `validateCredentials(input): ValidationResult` (fait)
-- `signUp(credentials)` / `signIn(credentials)` / `signOut()` (à venir)
-- `getCurrentUser()` / état de session (à venir)
+- `validateCredentials(input): ValidationResult`
+- `createAuth(gateway): { signUp, signIn, signOut, getCurrentUser }`
+- `supabaseAuthGateway(client): AuthGateway` (couche données)
+- Types : `Credentials`, `AuthUser`, `AuthOutcome`, `AuthGateway`, `ValidationResult`
 
 ## Données
 - Supabase Auth (table des utilisateurs). Un profil est créé à l'inscription (voir module `profil`,
