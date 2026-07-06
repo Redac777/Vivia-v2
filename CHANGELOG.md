@@ -6,7 +6,7 @@
 
 ## [Non publié]
 ### Ajouté
-- (rien pour l'instant)
+- feat(auth): validation des identifiants (Zod) + socle de tests (base projet, ADR-001)
 
 ### Modifié
 -

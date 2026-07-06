@@ -1,18 +1,38 @@
-// Test unitaire d'exemple — Module auth
-// Règle : 1 fonctionnalité = au moins 1 test unitaire (niveau (a) de la Règle des 3 niveaux).
-// Framework : jest-expo. Lancer avec : npm test
-//
-// Remplace cet exemple par de vrais tests de la logique du module.
+import { validateCredentials } from './auth.service';
 
-import { describe, it, expect } from '@jest/globals';
-
-describe('auth', () => {
-  it('exemple : décrit le comportement attendu d une fonctionnalité', () => {
-    // Arrange
-    const input = 1 + 1;
-    // Act / Assert
-    expect(input).toBe(2);
+// Niveau (a) de la Règle des 3 niveaux : test unitaire de la logique isolée.
+describe('auth / validateCredentials', () => {
+  it('accepte des identifiants valides', () => {
+    const r = validateCredentials({ email: 'reda@example.com', password: 'motdepasse1' });
+    expect(r.ok).toBe(true);
+    if (r.ok) {
+      expect(r.value.email).toBe('reda@example.com');
+    }
   });
 
-  // it('cas limite / erreur', () => { ... });
+  it('nettoie les espaces autour de l email', () => {
+    const r = validateCredentials({ email: '  reda@example.com  ', password: 'motdepasse1' });
+    expect(r.ok).toBe(true);
+    if (r.ok) {
+      expect(r.value.email).toBe('reda@example.com');
+    }
+  });
+
+  it('refuse un email invalide', () => {
+    const r = validateCredentials({ email: 'pas-un-email', password: 'motdepasse1' });
+    expect(r.ok).toBe(false);
+    if (!r.ok) {
+      expect(r.errors.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('refuse un mot de passe trop court', () => {
+    const r = validateCredentials({ email: 'reda@example.com', password: '123' });
+    expect(r.ok).toBe(false);
+  });
+
+  it('refuse des champs manquants', () => {
+    const r = validateCredentials({});
+    expect(r.ok).toBe(false);
+  });
 });

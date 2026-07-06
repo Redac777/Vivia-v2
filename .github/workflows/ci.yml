@@ -2,6 +2,7 @@ name: CI
 
 # Le robot qui vérifie chaque Pull Request et chaque push. Le merge sur main est bloqué tant que ce
 # job n'est pas vert (voir la protection de branche dans SETUP.md).
+# NB (ADR-001) : bootstrap logique d'abord. Les étapes Expo (lint / export) reviennent avec l'UI.
 
 on:
   pull_request:
@@ -24,17 +25,17 @@ jobs:
       - name: Install
         run: npm install
 
-      - name: Lint
-        run: npx expo lint
-
       - name: Typecheck
-        run: npx tsc --noEmit
+        run: npm run typecheck
 
       - name: Tests unitaires
         run: npm test
 
-      - name: Build
-        run: npx expo export
+      # À réintroduire avec l'UI (ADR-001) :
+      # - name: Lint
+      #   run: npx expo lint
+      # - name: Build
+      #   run: npx expo export
 
   security:
     runs-on: ubuntu-latest
