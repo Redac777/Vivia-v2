@@ -16,4 +16,5 @@
 ## Terminé
 -
 
-<!-- Rappel : `./scripts/new-task.sh feat calendrier` pour démarrer une tâche isolée. -->
+<!-- Rappel : `./scripts/new-task.sh feat calendrier <persona>` pour démarrer une tâche isolée
+     (persona = qui travaille, ex. l'owner @amine). -->

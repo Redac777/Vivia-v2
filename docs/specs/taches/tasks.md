@@ -16,4 +16,5 @@
 ## Terminé
 -
 
-<!-- Rappel : `./scripts/new-task.sh feat taches` pour démarrer une tâche isolée. -->
+<!-- Rappel : `./scripts/new-task.sh feat taches <persona>` pour démarrer une tâche isolée
+     (persona = qui travaille, ex. l'owner @reda). -->

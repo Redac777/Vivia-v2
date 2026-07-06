@@ -51,8 +51,9 @@ par l'API publique du module (`index.ts`). Toucher un autre module = ouvrir une 
 ---
 
 ## Boucle de travail d'une tâche (fais-le dans cet ordre, sans demander)
-1. **Créer le bureau isolé** : `./scripts/new-task.sh <type> <scope>` → crée un worktree + une branche
-   `<type>/<toi>/<scope>` (ex. `feat/reda/clients`). Jamais deux tâches dans le même worktree.
+1. **Créer le bureau isolé** : `./scripts/new-task.sh <type> <scope> <persona>` → crée un worktree +
+   une branche `<type>/<persona>/<scope>` (ex. `feat/reda/auth`) et signe les commits au nom de la
+   persona. Jamais deux tâches dans le même worktree.
 2. **Lire la spec** du module et se limiter à **un seul module**.
 3. **Coder** la fonctionnalité.
 4. **Tester aux 3 niveaux** (voir Règle des 3 niveaux ci-dessous).

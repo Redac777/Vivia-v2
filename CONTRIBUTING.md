@@ -13,10 +13,13 @@ comme pour les agents IA.
 On ne lance jamais deux agents sur le même dossier. Chacun son bureau isolé (git worktree).
 
 ```bash
-./scripts/new-task.sh feat clients     # crée un worktree isolé + la branche feat/<toi>/clients
+./scripts/new-task.sh feat clients reda   # worktree isolé + branche feat/reda/clients, commits signés "reda"
 ```
 
-- **Nommage des branches** : `type/owner/scope` — ex. `feat/reda/clients`, `fix/amine/filtres`.
+Le 3e argument (la **persona**) est obligatoire : il nomme la branche ET fixe l'identité Git du
+worktree, pour qu'on sache toujours qui travaille (voir §personas).
+
+- **Nommage des branches** : `type/persona/scope` — ex. `feat/reda/clients`, `fix/amine/filtres`.
 - Types : `feat | fix | refactor | chore | docs | test | ci`.
 - Commits fréquents et petits ; le bruit sera absorbé par le **squash merge**.
 
