@@ -5,6 +5,9 @@
 //   node scripts/pr-approve.mjs <n> request-changes "message obligatoire"
 import { execSync } from 'node:child_process';
 
+// Charge .env (gitignoré) pour lire GITHUB_TOKEN. Si absent, on garde l'env du shell.
+try { process.loadEnvFile('.env'); } catch { /* .env absent : fallback env shell */ }
+
 const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
 if (!token) {
   console.error('pr-approve: NO_TOKEN — renseigne GITHUB_TOKEN dans .env.');
