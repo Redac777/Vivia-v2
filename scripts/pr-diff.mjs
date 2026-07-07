@@ -2,6 +2,9 @@
 // Usage : node scripts/pr-diff.mjs <numero-de-PR>
 import { execSync } from 'node:child_process';
 
+// Charge .env (gitignoré) pour lire GITHUB_TOKEN. Si absent, on garde l'env du shell.
+try { process.loadEnvFile('.env'); } catch { /* .env absent : fallback env shell */ }
+
 const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
 if (!token) {
   console.error('pr-diff: NO_TOKEN — renseigne GITHUB_TOKEN dans .env.');

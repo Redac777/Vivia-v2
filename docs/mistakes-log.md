@@ -39,3 +39,25 @@
   global, absent en Node < 22. Le test d'auth plantait au `createClient`, alors que l'auth n'utilise
   que `fetch`. **Fix / invariant :** stub `WebSocket` inerte dans `jest.setup.ts` (jamais utilisé car
   on ne se connecte pas au realtime). En prod React Native, `WebSocket` existe déjà. (réf : ADR-004)
+
+- **`/pr-watch` : `pr-inbox.mjs` renvoie `NO_TOKEN` alors que `.env` contient `GITHUB_TOKEN`.**
+  Le script lit `process.env.GITHUB_TOKEN` mais ne charge jamais le fichier `.env` (pas de `dotenv`
+  ni de parsing). Lancé « nu » (`node scripts/pr-inbox.mjs`), la variable n'est pas dans
+  l'environnement du process → `NO_TOKEN`. **Cause racine :** hypothèse implicite que `.env` est
+  déjà exporté dans le shell. **Fix / invariant :** les scripts `pr-*.mjs` chargent désormais eux-mêmes
+  `.env` en tête (`try { process.loadEnvFile('.env'); } catch {}`, dispo Node ≥ 20.12) → `node
+  scripts/pr-inbox.mjs` marche « nu », sans `--env-file` ni sourcing shell. (réf : scripts/pr-inbox.mjs)
+
+- **`/pr-watch` : approbation en `403 Resource not accessible by personal access token`, alors que le
+  token fine-grained a bien `Pull requests: Read and write`.** Le PAT **fine-grained** était créé sous
+  le compte `mbaghireda-001` (scope *All repositories*), mais le repo cible `Redac777/Vivia-v2`
+  appartient à un **autre compte perso** (`Redac777`). Un token fine-grained ne s'applique **qu'aux
+  repos possédés par le compte qui l'émet** : ses permissions (même *Read and write*) ne valent pas
+  hors de ce périmètre. Les **lectures** passaient quand même (`pr-inbox`, `pr-diff`) parce que le repo
+  est **public** (les fine-grained ont toujours un accès lecture au public) → d'où l'illusion « le token
+  marche ». Seules les **écritures** (créer une review, merger) tombaient en 403. Le champ
+  `permissions.push:true` renvoyé par l'API reflète le droit de **collaborateur** du compte, pas celui
+  du token — piège. **Cause racine :** token fine-grained hors de son périmètre de propriété.
+  **Fix / invariant :** pour agir (review / merge) sur le repo perso d'un autre compte où l'on est
+  collaborateur, utiliser un PAT **classic** (`ghp_…`) avec le scope **`repo`** ; un fine-grained ne
+  convient que pour ses propres repos (ou une org qui l'y autorise). (réf : PR #12, scripts/pr-approve.mjs)
