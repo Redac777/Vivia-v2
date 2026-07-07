@@ -30,6 +30,17 @@ Un assistant de vie proactif alimenté par l'IA : tâches, calendrier, stocks et
 > deviennent actives à l'incrément UI (elles sont réintroduites dans `package.json` + `ci.yml` à ce
 > moment-là).
 
+## Accès et secrets (identifiants, tokens) — NON-NÉGOCIABLE
+Toute donnée d'accès (URL et clés Supabase, token GitHub, clés d'API, secrets divers) se lit
+**uniquement** depuis le fichier d'environnement `.env` (gitignoré), jamais en dur dans le code.
+- **Avant de demander un identifiant à Reda, cherche-le d'abord dans `.env`** (référence des clés
+  attendues : `.env.example`).
+- **Si la clé existe et est renseignée dans `.env`** : utilise-la, sans redemander.
+- **Si la clé est absente ou vide** : demande à Reda de la fournir, indique-lui la variable exacte
+  à renseigner dans `.env` (ex. `EXPO_PUBLIC_SUPABASE_URL`), et ajoute-la à `.env.example` si elle
+  n'y figure pas encore.
+- Ne colle jamais un secret dans un message, un commit, la doc ou un log. Ne commite jamais `.env`.
+
 ## Carte des modules (bounded contexts)
 Un agent travaille **dans un seul module à la fois**. Les échanges entre modules passent **uniquement**
 par l'API publique du module (`index.ts`). Toucher un autre module = ouvrir une PR revue par son owner.
@@ -125,7 +136,8 @@ Un commit = **un seul** changement logique. Jamais de secret ni de `.env`. Jamai
 - Toute action irréversible (suppression, force-push, envoi externe).
 
 ### NEVER DO
-- Commiter un secret / `.env`. · Pousser directement sur `main`. · Utiliser `any` en TypeScript.
+- Commiter un secret / `.env`. · Mettre un identifiant en dur au lieu de le lire depuis `.env`. ·
+  Pousser directement sur `main`. · Utiliser `any` en TypeScript.
 - Modifier le module d'un autre owner sans PR + revue. · Laisser une fonctionnalité sans ses 3 tests.
 
 ---
