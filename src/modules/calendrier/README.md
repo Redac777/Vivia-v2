@@ -21,3 +21,5 @@ calendrier/
 
 ## Owner
 @amine — toute PR touchant ce module réclame sa revue (CODEOWNERS).
+
+<!-- démo /pr-watch : PR de @Redac777 touchant le module de @mbaghireda-001 -->
