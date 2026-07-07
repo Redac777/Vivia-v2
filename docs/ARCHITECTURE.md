@@ -21,11 +21,17 @@ tests, son `README.md` et son `CLAUDE.md`. Règles :
 src/
 ├── modules/          # modules métier autonomes (voir carte ci-dessous)
 ├── shared/           # UI kit neutre + utilitaires réutilisables
+│   └── lib/supabase.ts   # client Supabase runtime (env validé Zod + storage injectable)
 └── ...               # coquilles de navigation / routes (fines, sans logique métier)
 docs/                 # architecture, specs, ADR, design, erreurs
 design/               # maquettes adoptées par module
 security/             # scripts de test de sécurité
 ```
+
+Le **client Supabase** est centralisé dans `src/shared/lib/supabase.ts` (`createSupabaseClient`), pas
+dupliqué par module : il valide l'environnement, et son storage de session est **injecté**
+(AsyncStorage en app, mémoire en test). Chaque module reçoit le client déjà construit et ne connaît ni
+l'environnement ni le storage (voir ADR-004).
 
 ## Carte des modules
 | Module | Rôle | Owner | Dépend de |
