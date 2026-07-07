@@ -48,6 +48,32 @@ Quand une seule personne joue plusieurs devs :
 - Résultat : on vit le vrai flux worktrees → PR → merge sans se bloquer soi-même.
 - Pour une vraie équipe : passer les approbations à 1 (ou 2) et retirer l'assouplissement.
 
+## Gérer les collaborateurs (comptes GitHub) — définir, ajouter, modifier
+Deux notions à **ne pas confondre** :
+- **Persona** : une étiquette de simulation (nomme la branche + signe les commits via `new-task.sh`).
+  Ce n'est **pas** un compte GitHub.
+- **Compte GitHub réel** : le handle (`@quelquun`) qui doit (1) être **collaborateur du repo** avec
+  accès en écriture, et (2) figurer dans `.github/CODEOWNERS`. C'est lui qui rend la revue de
+  périmètre **réelle**.
+
+CODEOWNERS n'accepte que des comptes/équipes **réels ayant accès au repo**. Un handle inexistant est
+**ignoré** par GitHub (erreur « Unknown owner », vérifiable via l'API `codeowners/errors`) : le verrou
+ne s'applique alors pas. C'est pour ça qu'en simulation à compte unique, CODEOWNERS ne bloque rien.
+
+### Ajouter un collaborateur (ou passer de personas fictifs à de vrais comptes)
+1. **GitHub** : *Settings → Collaborators* → inviter son handle (accès **Write**). Il accepte l'invit.
+2. **CODEOWNERS** (c'est de la loi → **via PR**) : remplace le persona par le vrai handle pour ses
+   modules, ex. `/src/modules/calendrier/   @amine-github`.
+3. Si tu quittes la simulation à compte unique : passe les **approbations requises à 1** (*Settings →
+   Branches*) sur `dev_branch` et `main`. La revue croisée devient effective.
+4. Vérifie : `GET /repos/<owner>/<repo>/codeowners/errors` ne doit plus renvoyer d'erreur.
+
+### Modifier / retirer un collaborateur
+- **Retirer** : le sortir des *Collaborators* GitHub **et** réattribuer ses modules dans
+  `.github/CODEOWNERS` (dans la même PR).
+- **Réattribuer un module** : changer l'owner dans `CODEOWNERS` **et** dans la table « Carte des
+  modules » du `CLAUDE.md` (via PR).
+
 ## Décisions et erreurs
 - Décision structurante → un **ADR** : `docs/adr/NNNN-titre.md` (voir `docs/adr/000-adr-process.md`).
 - Erreur non-évidente → une entrée dans `docs/mistakes-log.md`.
