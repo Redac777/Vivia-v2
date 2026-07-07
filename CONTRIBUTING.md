@@ -74,6 +74,12 @@ ne s'applique alors pas. C'est pour ça qu'en simulation à compte unique, CODEO
 - **Réattribuer un module** : changer l'owner dans `CODEOWNERS` **et** dans la table « Carte des
   modules » du `CLAUDE.md` (via PR).
 
+## Périmètre mécanique : un module à la fois (scope guard)
+Le check CI `scripts/check-scope.mjs` **fait échouer** une PR qui modifie plusieurs `src/modules/<X>/`
+ou un module différent du scope de sa branche (`type/owner/scope`). Les fichiers partagés (docs,
+CHANGELOG, config) restent libres (gouvernés par CODEOWNERS). Ça verrouille le territoire du **code**
+même sans revue croisée (utile en simulation à compte unique, où CODEOWNERS ne mord pas encore).
+
 ## Décisions et erreurs
 - Décision structurante → un **ADR** : `docs/adr/NNNN-titre.md` (voir `docs/adr/000-adr-process.md`).
 - Erreur non-évidente → une entrée dans `docs/mistakes-log.md`.
