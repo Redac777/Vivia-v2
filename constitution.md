@@ -41,9 +41,9 @@ react-native-url-polyfill
 typescript
 jest
 ts-jest
-@types/jest
 jest-expo
-@types/react
+# Types (@types/* est accepté globalement, voir ADR-004)
+@types/*
 ```
 <!-- deps-allowlist:end -->
 

@@ -9,9 +9,11 @@
 - feat(auth): validation des identifiants (Zod) + socle de tests (base projet, ADR-001)
 - ci: gate de conformité des dépendances (`check-deps`) — la constitution devient mécaniquement appliquée (ADR-002)
 - feat(auth): service d'auth (signUp / signIn / signOut / session) + adaptateur Supabase injecté (ADR-003)
+- feat(auth): client Supabase runtime (env validé Zod + storage injectable) + `createSupabaseAuth` + test d'intégration réseau réel (ADR-004)
 
 ### Modifié
--
+- docs: règle « Accès et secrets » (lire les identifiants depuis `.env`) ajoutée au CLAUDE.md
+- chore(deps): `@types/node` (Node test env) ; allowlist alignée sur `@types/*` (ADR-004)
 
 ### Corrigé
 -

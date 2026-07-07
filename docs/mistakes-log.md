@@ -24,3 +24,18 @@
   discipline de l'agent (du texte), rien ne la bloquait. **Fix / invariant :** gate CI
   `scripts/check-deps.mjs` qui échoue si le `package.json` s'écarte de la liste approuvée (ADR-002).
   Et pour tout changement « ASK FIRST » : demander avant, pas décider seul. (réf : PR #1, ADR-001/002)
+
+- **Le gate `check-deps` n'appliquait pas la règle `@types/*` que la constitution disait accepter.**
+  La prose de la constitution affirmait « `@types/*` accepté », mais le bloc `deps-allowlist` listait
+  les types en dur (`@types/jest`, `@types/react`) sans la ligne `@types/*`. Résultat : `check-deps`
+  aurait bloqué l'ajout de `@types/node`, pourtant censé être autorisé. **Cause racine :** une règle
+  écrite en prose mais pas encodée dans la partie que la machine lit. **Fix / invariant :** la ligne
+  `@types/*` figure désormais dans le bloc `deps-allowlist` ; la prose et le gate disent la même chose.
+  Leçon : toute règle « mécanique » doit vivre dans la zone que le gate parse, pas seulement en texte.
+  (réf : ADR-004)
+
+- **Tests d'intégration Supabase : « Node.js detected but native WebSocket not found ».**
+  `createClient` de `@supabase/supabase-js` instancie un client realtime qui exige un `WebSocket`
+  global, absent en Node < 22. Le test d'auth plantait au `createClient`, alors que l'auth n'utilise
+  que `fetch`. **Fix / invariant :** stub `WebSocket` inerte dans `jest.setup.ts` (jamais utilisé car
+  on ne se connecte pas au realtime). En prod React Native, `WebSocket` existe déjà. (réf : ADR-004)
