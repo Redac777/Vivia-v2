@@ -81,7 +81,11 @@ par l'API publique du module (`index.ts`). Toucher un autre module = ouvrir une 
 8. **Mettre à jour la doc du module** (partie du Done, voir Discipline de documentation) : `spec.md`
    (contrat réel), `tasks.md` (avancement), `test-plan.md` (tests), `design.md` (si UI), + CHANGELOG,
    + ADR si décision, + mistakes-log si erreur non-évidente rencontrée.
-9. **Ouvrir la PR** avec le template rempli. Ne merge que si la CI est verte et la revue faite.
+9. **Ouvrir la PR toi-même** (template rempli), via le `GITHUB_TOKEN` de `.env` (ou `gh` s'il est
+   dispo). C'est une étape de la boucle : tu ne demandes pas la permission pour ouvrir la PR.
+10. **Merge = confirmation de Reda (ASK FIRST).** Tu ne merges JAMAIS de ta propre initiative. Une fois
+    la CI verte, tu proposes le merge et tu **attends la confirmation explicite de Reda**. Après merge :
+    mets à jour la branche de base en local, supprime la branche et le worktree.
 
 ## Règle des 3 niveaux de test (NON-NÉGOCIABLE)
 **Toute fonctionnalité validée et terminée est testée aux 3 niveaux avant d'être déclarée « done ».**
@@ -128,8 +132,10 @@ Un commit = **un seul** changement logique. Jamais de secret ni de `.env`. Jamai
 ### ALWAYS DO (agis directement, ne demande pas)
 - Corriger un bug, choisir la mise en œuvre **dans le périmètre de la spec**, écrire les tests, commiter.
 - Suivre la boucle de travail et la Definition of Done jusqu'au bout.
+- **Ouvrir la PR** (template rempli) et surveiller la CI, via le `GITHUB_TOKEN` de `.env`.
 
 ### ASK FIRST (demande avant)
+- **Merger une PR** (dans `dev_branch` ou `main`) : propose, puis attends la confirmation de Reda.
 - Ajouter une dépendance hors de la liste approuvée (`constitution.md`).
 - Changer le schéma de la base de données.
 - Modifier une décision d'architecture ou la signature d'une API publique.
