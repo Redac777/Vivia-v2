@@ -1,19 +1,24 @@
 # CODEOWNERS — qui possède quoi.
 # Toute PR touchant un chemin ci-dessous réclame AUTOMATIQUEMENT la revue de l'owner indiqué.
 # Syntaxe : <chemin>   @pseudo-github   (le dernier motif qui matche gagne).
+#
+# Owners = VRAIS comptes GitHub collaborateurs du repo (sinon GitHub ignore la règle).
+# Mapping personas (simulation) → comptes réels :
+#   reda, sara → @Redac777   |   amine → @mbaghireda-001
+# Pour ajouter/modifier un collaborateur : voir CONTRIBUTING §« Gérer les collaborateurs ».
 
-# Fichiers de loi = revus par le/les responsable(s) du projet
-/CLAUDE.md               @reda
-/constitution.md         @reda
-/docs/                   @reda
-/.github/                @reda
+# Fichiers de loi = revus par le lead
+/CLAUDE.md               @Redac777
+/constitution.md         @Redac777
+/docs/                   @Redac777
+/.github/                @Redac777
 
-# Un module = un owner (généré depuis la table module → owner)
-/src/modules/onboarding/    @sara
-/src/modules/auth/          @reda
-/src/modules/dashboard/     @sara
-/src/modules/taches/        @reda
-/src/modules/calendrier/    @amine
-/src/modules/stocks/        @amine
-/src/modules/chat/          @sara
-/src/modules/profil/        @sara
+# Un module = un owner (vrais comptes GitHub)
+/src/modules/onboarding/    @Redac777
+/src/modules/auth/          @Redac777
+/src/modules/dashboard/     @Redac777
+/src/modules/taches/        @Redac777
+/src/modules/calendrier/    @mbaghireda-001
+/src/modules/stocks/        @mbaghireda-001
+/src/modules/chat/          @Redac777
+/src/modules/profil/        @Redac777
